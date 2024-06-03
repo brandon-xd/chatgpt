@@ -20,63 +20,64 @@ import {
 } from "@react-navigation/drawer";
 import { useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import CustomDrawerContent from "@/components/CustomDrawerContent";
 
-export const CustomDrawerContent = (props: any) => {
-  const { bottom, top } = useSafeAreaInsets();
-  // const db = useSQLiteContext();
-  const isDrawerOpen = useDrawerStatus() === "open";
-  // const [history, setHistory] = useState<Chat[]>([]);
-  const router = useRouter();
+// export const CustomDrawerContent = (props: any) => {
+//   const { bottom, top } = useSafeAreaInsets();
+//   // const db = useSQLiteContext();
+//   const isDrawerOpen = useDrawerStatus() === "open";
+//   // const [history, setHistory] = useState<Chat[]>([]);
+//   const router = useRouter();
 
-  return (
-    <View style={{ flex: 1, marginTop: top }}>
-      <View style={{ paddingBottom: 10 }}>
-        <View style={[styles.searchSection]}>
-          <Ionicons
-            name="search"
-            size={20}
-            color={Colors.grey}
-            style={styles.searchIcon}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Search"
-            underlineColorAndroid="transparent"
-          />
-        </View>
-      </View>
-      <DrawerContentScrollView
-        contentContainerStyle={{ paddingTop: 0 }}
-        {...props}
-      >
-        <DrawerItemList {...props} />
-      </DrawerContentScrollView>
+//   return (
+//     <View style={{ flex: 1, marginTop: top }}>
+//       <View style={{ paddingBottom: 10 }}>
+//         <View style={[styles.searchSection]}>
+//           <Ionicons
+//             name="search"
+//             size={20}
+//             color={Colors.grey}
+//             style={styles.searchIcon}
+//           />
+//           <TextInput
+//             style={styles.input}
+//             placeholder="Search"
+//             underlineColorAndroid="transparent"
+//           />
+//         </View>
+//       </View>
+//       <DrawerContentScrollView
+//         contentContainerStyle={{ paddingTop: 0 }}
+//         {...props}
+//       >
+//         <DrawerItemList {...props} />
+//       </DrawerContentScrollView>
 
-      <View
-        style={{
-          padding: 16,
-          paddingBottom: 10 + bottom,
-          backgroundColor: Colors.light,
-        }}
-      >
-        <Link href="/(auth)/(modal)/settings" asChild>
-          <TouchableOpacity style={styles.footer}>
-            <Image
-              source={{ uri: "https://galaxies.dev/img/meerkat_2.jpg" }}
-              style={styles.avatar}
-            />
-            <Text style={styles.userName}>Mika Meerkat</Text>
-            <Ionicons
-              name="ellipsis-horizontal"
-              size={24}
-              color={Colors.greyLight}
-            />
-          </TouchableOpacity>
-        </Link>
-      </View>
-    </View>
-  );
-};
+//       <View
+//         style={{
+//           padding: 16,
+//           paddingBottom: 10 + bottom,
+//           backgroundColor: Colors.light,
+//         }}
+//       >
+//         <Link href="/(auth)/(modal)/settings" asChild>
+//           <TouchableOpacity style={styles.footer}>
+//             <Image
+//               source={{ uri: "https://galaxies.dev/img/meerkat_2.jpg" }}
+//               style={styles.avatar}
+//             />
+//             <Text style={styles.userName}>Mika Meerkat</Text>
+//             <Ionicons
+//               name="ellipsis-horizontal"
+//               size={24}
+//               color={Colors.greyLight}
+//             />
+//           </TouchableOpacity>
+//         </Link>
+//       </View>
+//     </View>
+//   );
+// };
 
 const Layout = () => {
   const navigation = useNavigation();
