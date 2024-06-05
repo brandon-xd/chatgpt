@@ -13,7 +13,7 @@ import { defaultStyles } from "@/constants/Styles";
 import { Redirect, Stack } from "expo-router";
 import HeaderDropDown from "@/components/HeaderDropDown";
 import MessageInput from "@/components/MessageInput";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import MessageIdeas from "@/components/MessageIdeas";
 import { Message, Role } from "@/utils/interfaces";
@@ -21,6 +21,7 @@ import { FlashList } from "@shopify/flash-list";
 import ChatMessage from "@/components/ChatMessage";
 import { useMMKVString } from "react-native-mmkv";
 import { keyStorage, storage } from "@/utils/Storage";
+import OpenAI from "react-native-openai";
 
 const DUMMY_MESSAGES: Message[] = [
   {
@@ -31,19 +32,6 @@ const DUMMY_MESSAGES: Message[] = [
     content:
       "I'd like to know more about React Native development. I'd like to know more about React Native I'd like to know more about React Native I'd like to know more about React Native I'd like to know more about React Native I'd like to know more about React Native",
     role: Role.User,
-  },
-  {
-    content: "Hello, how can I help you today?",
-    role: Role.Bot,
-  },
-  {
-    content:
-      "I'd like to know more about React Native development. I'd like to know more about React Native I'd like to know more about React Native I'd like to know more about React Native I'd like to know more about React Native I'd like to know more about React Native",
-    role: Role.User,
-  },
-  {
-    content: "Hello, how can I help you today?",
-    role: Role.Bot,
   },
 ];
 
@@ -58,9 +46,48 @@ const Page = () => {
     return <Redirect href={"/(auth)/(modal)/settings"} />;
   }
 
+  const openAI = useMemo(() => new OpenAI({ apiKey: key, organization }), []);
+
   const getCompletion = (message: string) => {
     console.log("get completion for:", message);
+    if (messages.length === 0) {
+      // create later
+    }
+
+    setMessages([
+      ...messages,
+      { content: message, role: Role.User },
+      { role: Role.Bot, content: "" },
+    ]);
+
+    openAI.chat.stream({
+      messages: [{ role: "user", content: message }],
+      model: gptVersion === "4" ? "gpt-4" : "gpt-3.5-turbo",
+    });
   };
+
+  useEffect(() => {
+    const handleNewMessage = (payload: any) => {
+      setMessages((messages) => {
+        const newMessage = payload.choices[0]?.delta.content;
+        if (newMessage) {
+          messages[messages.length - 1].content += newMessage;
+          return [...messages];
+        }
+        if (payload.choices[0]?.finishReason) {
+          console.log("Chat finished");
+        }
+
+        return messages;
+      });
+    };
+
+    openAI.chat.addListener("onChatMessageReceived", handleNewMessage);
+
+    return () => {
+      openAI.chat.removeListener("onChatMessageReceived");
+    };
+  }, [openAI]);
 
   const onLayout = (event: any) => {
     const { height } = event.nativeEvent.layout;
