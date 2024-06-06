@@ -16,7 +16,7 @@ import MessageInput from "@/components/MessageInput";
 import { useEffect, useMemo, useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import MessageIdeas from "@/components/MessageIdeas";
-import { Message, Role } from "@/utils/interfaces";
+import { Message, Role } from "@/utils/Interfaces";
 import { FlashList } from "@shopify/flash-list";
 import ChatMessage from "@/components/ChatMessage";
 import { useMMKVString } from "react-native-mmkv";

@@ -1,9 +1,15 @@
-import { View, Text, StyleSheet, Image } from "react-native";
-import { Message } from "@/utils/interfaces";
-import { Role } from "@/utils/interfaces";
+import { View, Text, StyleSheet, Image, ActivityIndicator } from "react-native";
+import { Message } from "@/utils/Interfaces";
+import { Role } from "@/utils/Interfaces";
 import Colors from "@/constants/Colors";
 
-const ChatMessage = ({ content, role, imageUrl, prompt }: Message) => {
+const ChatMessage = ({
+  content,
+  role,
+  imageUrl,
+  prompt,
+  loading,
+}: Message & { loading?: boolean }) => {
   return (
     <View>
       {role === Role.Bot ? (
@@ -14,7 +20,21 @@ const ChatMessage = ({ content, role, imageUrl, prompt }: Message) => {
               style={styles.btnImage}
             />
           </View>
-          <Text style={[styles.text, { marginRight: 40 }]}>{content}</Text>
+          {loading ? (
+            <View style={styles.loading}>
+              <ActivityIndicator color={Colors.primary} />
+            </View>
+          ) : (
+            <>
+              {content === "" && imageUrl ? (
+                <Image source={{ uri: imageUrl }} style={styles.previewImage} />
+              ) : (
+                <Text style={[styles.text, { marginRight: 40 }]}>
+                  {content}
+                </Text>
+              )}
+            </>
+          )}
         </View>
       ) : (
         <View style={styles.row}>
@@ -71,6 +91,16 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: "#eee",
     marginRight: "auto",
+  },
+  loading: {
+    justifyContent: "center",
+    height: 26,
+    marginLeft: 14,
+  },
+  previewImage: {
+    width: 240,
+    height: 240,
+    borderRadius: 10,
   },
 });
 

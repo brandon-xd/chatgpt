@@ -108,7 +108,7 @@ const MessageInput = ({ onShouldSendMessage }: MessageInputProps) => {
         </Animated.View>
 
         <TextInput
-          autoFocus
+          // autoFocus
           style={styles.messageInput}
           placeholder="Message"
           multiline
