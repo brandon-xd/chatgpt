@@ -19,25 +19,26 @@ import {
 import { useMMKVString } from "react-native-mmkv";
 import OpenAI from "react-native-openai";
 
-// const dummyMessages = [
-//   {
-//     role: Role.Bot,
-//     content: "",
-//     imageUrl: "https://galaxies.dev/img/meerkat_2.jpg",
-//     prompt:
-//       "A meerkat astronaut in a futuristic spacesuit, standing upright on a rocky, alien landscape resembling the surface of Mars. The spacesuit is highly detailed with reflective visor and intricate life-support systems. The background shows a distant starry sky and a small Earth visible in the far horizon. The meerkat looks curious and brave, embodying the spirit of exploration.",
-//   },
-//   {
-//     role: Role.Bot,
-//     loading: true,
-//   },
-// ];
+const dummyMessages = [
+  {
+    role: Role.Bot,
+    content: "",
+    imageUrl: "https://galaxies.dev/img/meerkat_2.jpg",
+    prompt:
+      "A meerkat astronaut in a futuristic spacesuit, standing upright on a rocky, alien landscape resembling the surface of Mars. The spacesuit is highly detailed with reflective visor and intricate life-support systems. The background shows a distant starry sky and a small Earth visible in the far horizon. The meerkat looks curious and brave, embodying the spirit of exploration.",
+  },
+  {
+    role: Role.Bot,
+    loading: true,
+  },
+];
 
 const Page = () => {
   const [height, setHeight] = useState(0);
   const [key, setKey] = useMMKVString("apiKey", keyStorage);
   const [organization, setOrganization] = useMMKVString("org", keyStorage);
-  const [messages, setMessages] = useState<Message[]>([]);
+  // plug in dummyMessages to see the example without using API, or keep as [] to use API
+  const [messages, setMessages] = useState<Message[]>(dummyMessages as any);
   const [working, setWorking] = useState(false);
 
   if (!key || key === "" || !organization || organization === "") {

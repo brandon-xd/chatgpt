@@ -40,6 +40,32 @@ const Layout = () => {
           ),
         }}
       ></Stack.Screen>
+      <Stack.Screen
+        name="(modal)/[url]"
+        options={{
+          headerTitle: "",
+          presentation: "fullScreenModal",
+          headerShadowVisible: false,
+          headerBlurEffect: "dark",
+          headerTransparent: true,
+          headerStyle: { backgroundColor: "rgba(0,0,0,0.5)" },
+          headerLeft: () => (
+            <>
+              {router.canGoBack() && (
+                <TouchableOpacity
+                  onPress={() => router.back()}
+                  style={{
+                    borderRadius: 20,
+                    padding: 4,
+                  }}
+                >
+                  <Ionicons name="close-outline" size={28} color={"#fff"} />
+                </TouchableOpacity>
+              )}
+            </>
+          ),
+        }}
+      ></Stack.Screen>
     </Stack>
   );
 };
