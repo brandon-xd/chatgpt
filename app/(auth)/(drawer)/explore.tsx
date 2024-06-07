@@ -110,7 +110,7 @@ const Page = () => {
               tint={"light"}
               style={[
                 StyleSheet.absoluteFill,
-                { backgroundColor: "rgba(0256,256,256,0.5)" },
+                { backgroundColor: "rgba(256,256,256,0.5)" },
               ]}
             />
           ),
@@ -169,8 +169,8 @@ const Page = () => {
             {selected === section && (
               <Animated.View
                 style={styles.section}
-                entering={FadeIn.duration(600).delay(400)}
-                exiting={FadeOut.duration(400)}
+                entering={FadeIn.duration(400).delay(300)}
+                exiting={FadeOut.duration(300)}
               >
                 <ShimmerPlaceholder width={160} height={20} visible={!loading}>
                   <Text style={styles.title}>{selected.title}</Text>
